@@ -8,19 +8,19 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"time"
 )
 
+type measurements struct {
+	City  string
+	Temps []float64
+}
+
 func main() {
-	startTime := time.Now()
-	fmt.Printf("Start time: %s\n", startTime)
 	data, err := os.ReadFile("data/measurements.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 	lines := strings.Split(string(data), "\n")
-	//sorting lines
-	sort.Strings(lines)
 	//store the values in map
 	dataStore := make(map[string][]float64)
 	for _, line := range lines {
@@ -33,13 +33,19 @@ func main() {
 			}
 			//fmt.Println(string(city) + strconv.FormatFloat(temp, 'f', -1, 64))
 		}
-
 	}
+	//Sort Cities
+	var sortedCities []string
+	for city := range dataStore {
+		sortedCities = append(sortedCities, city)
+	}
+	sort.Strings(sortedCities)
+
 	fmt.Printf("{")
-	looper := 0
 	//calculate values
-	for city, temps := range dataStore {
+	for looper, city := range sortedCities {
 		//fmt.Printf("%s: ", key)
+		temps := dataStore[city]
 		var minVal, maxVal, totalVal float64
 		for _, val := range temps {
 			if val < minVal {
@@ -60,8 +66,5 @@ func main() {
 		looper++
 	}
 	fmt.Printf("}\n")
-
-	fmt.Printf("Time taken: %s\n", time.Since(startTime))
-
 	//fmt.Println(string(data))
 }
