@@ -8,9 +8,12 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
+	startTime := time.Now()
+	fmt.Printf("Start time: %s\n", startTime)
 	data, err := os.ReadFile("data/measurements.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -56,6 +59,9 @@ func main() {
 		}
 		looper++
 	}
-	fmt.Printf("}")
+	fmt.Printf("}\n")
+
+	fmt.Printf("Time taken: %s\n", time.Since(startTime))
+
 	//fmt.Println(string(data))
 }
