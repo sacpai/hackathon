@@ -16,8 +16,9 @@ func main() {
 		log.Fatal(err)
 	}
 	lines := strings.Split(string(data), "\n")
+	//sorting lines
 	sort.Strings(lines)
-
+	//store the values in map
 	dataStore := make(map[string][]float64)
 	for _, line := range lines {
 		lineSplit := strings.Split(line, ";")
@@ -33,6 +34,7 @@ func main() {
 	}
 	fmt.Printf("{")
 	looper := 0
+	//calculate values
 	for city, temps := range dataStore {
 		//fmt.Printf("%s: ", key)
 		var minVal, maxVal, totalVal float64
@@ -48,6 +50,7 @@ func main() {
 		}
 		meanVal := totalVal / float64(len(temps))
 		fmt.Printf("%s=%.1f/%.1f/%.1f", city, minVal, maxVal, math.Round(meanVal*10)/10)
+
 		if looper < len(dataStore)-1 {
 			fmt.Printf(",")
 		}
